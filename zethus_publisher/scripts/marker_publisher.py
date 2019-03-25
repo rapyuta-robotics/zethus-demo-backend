@@ -36,6 +36,9 @@ def publish_marker():
         marker.color.r = 1.0
         marker.color.g = 0.0
         marker.color.b = 0.0
+        marker.text = "Demo"
+        marker.mesh_resource = "package://ur_description/meshes/ur10/visual/forearm.dae";
+        marker.mesh_use_embedded_materials = True
 
         for i in range(6):
             point = Point()
@@ -78,6 +81,9 @@ def publish_marker_array():
             marker_element.color.r = 0.0
             marker_element.color.g = 1.0
             marker_element.color.b = 0.0
+            marker_element.text = "Demo"
+            marker_element.mesh_resource = "package://ur_description/meshes/ur10/visual/forearm.dae";
+            marker_element.mesh_use_embedded_materials = True
 
             for i in range(6):
                 point = Point()
@@ -103,7 +109,7 @@ if __name__ == "__main__":
     try:
         rospy.init_node("zethus_backend_sample_publisher")
 
-        types = ['arrow', 'cube', 'sphere', 'cylinder', 'line_strip', 'line_list', 'cube_list', 'sphere_list', 'points']
+        types = ['arrow', 'cube', 'sphere', 'cylinder', 'line_strip', 'line_list', 'cube_list', 'sphere_list', 'points', 'text_view_facing', 'mesh_resource', 'triangle_list']
         marker_publisher = []
         marker_array_publisher = []
 
