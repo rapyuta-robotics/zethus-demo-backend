@@ -107,7 +107,7 @@ def publish_marker_array():
 
 if __name__ == "__main__":
     try:
-        rospy.init_node("zethus_backend_sample_publisher")
+        rospy.init_node("zethus_backend_marker_publisher")
 
         types = ['arrow', 'cube', 'sphere', 'cylinder', 'line_strip', 'line_list', 'cube_list', 'sphere_list', 'points', 'text_view_facing', 'mesh_resource', 'triangle_list']
         marker_publisher = []
