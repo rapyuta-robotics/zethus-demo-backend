@@ -19,6 +19,7 @@ def publish_marker():
         index = types.index(type)
         marker = Marker()
         marker.header.frame_id = "world"
+        marker.header.stamp =  rospy.get_rostime()
         marker.id = 0
         marker.type = index 
         marker.action = marker.ADD #Add/modify
@@ -64,6 +65,7 @@ def publish_marker_array():
         for i in range(10):
             marker_element = Marker()
             marker_element.header.frame_id = "world"
+            marker_element.header.stamp =  rospy.get_rostime()
             marker_element.id = i
             marker_element.type = index #CUBE
             marker_element.action = marker_element.ADD #Add/modify
@@ -109,13 +111,13 @@ if __name__ == "__main__":
     try:
         rospy.init_node("zethus_backend_marker_publisher")
 
-        types = ['arrow', 'cube', 'sphere', 'cylinder', 'line_strip', 'line_list', 'cube_list', 'sphere_list', 'points', 'text_view_facing', 'mesh_resource', 'triangle_list']
+        types = [('arrow', Marker, MarkerArray), ('cube', Marker, MarkerArray), ('sphere', Marker, MarkerArray), ('cylinder', Marker, MarkerArray), ('line_trip', Marker, MarkerArray), ('line_list', Marker, MarkerArray), ('cube_list', Marker, MarkerArray), ('sphere_list', Marker, MarkerArray), ('points', Marker, MarkerArray), ('text_view_facing', Marker, MarkerArray), ('mesh_resource', Marker, MarkerArray), ('triangle_list', Marker, MarkerArray)]
         marker_publisher = []
         marker_array_publisher = []
 
         for type in types:
-            marker_publisher.append(rospy.Publisher(type, Marker, queue_size=10, latch=True))
-            marker_array_publisher.append(rospy.Publisher(type+'_array', MarkerArray, queue_size=10, latch=True))
+            marker_publisher.append(rospy.Publisher(type[0], type[1], queue_size=1, latch=True))
+            marker_array_publisher.append(rospy.Publisher('array_'+type[0], type[2], queue_size=1, latch=True))
 
         main()
     except rospy.ROSInterruptException:

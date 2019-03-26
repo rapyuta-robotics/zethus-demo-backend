@@ -9,6 +9,6 @@
     <arg name="port" value="$(arg webserver_port)" />
   </include>
 
-  <node name="zethus_backend_marker_publisher" pkg="zethus_publisher" type="marker_publisher.py" respawn="true"/>
+  <node name="zethus_backend_marker_publisher" pkg="zethus_publisher" type="visualization_msgs_publisher.py" respawn="true"/>
 
 </launch>
