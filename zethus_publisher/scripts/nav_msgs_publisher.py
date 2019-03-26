@@ -5,12 +5,14 @@ import random
 from nav_msgs.msg import Odometry,OccupancyGrid
 
 def main():
+    #TODO: Change this logic to pass publisher index to the methods. This is ugly
     for type in types:
         index = types.index(type)
         if type[0] == 'odometry':
             publish_odometry(index)
         elif type[0] == 'occupancy_grid':
             publish_occupancy_grid(index)  
+            
     rospy.spin()
 
 

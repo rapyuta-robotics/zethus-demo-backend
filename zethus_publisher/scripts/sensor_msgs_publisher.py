@@ -8,6 +8,7 @@ import math
 from sensor_msgs.msg import JointState, LaserScan, Range, MagneticField
 
 def main():
+    #TODO: Change this logic to pass publisher index to the methods. This is ugly
     for type in types:
         index = types.index(type)
         if type[0] == 'joint_state':

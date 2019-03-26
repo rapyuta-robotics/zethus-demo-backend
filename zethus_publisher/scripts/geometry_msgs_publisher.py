@@ -5,6 +5,7 @@ import random
 from geometry_msgs.msg import Pose, PoseArray, PoseStamped, PolygonStamped, Polygon, Point32, WrenchStamped, AccelStamped, TwistStamped, Vector3Stamped
 
 def main():
+    #TODO: Change this logic to pass publisher index to the methods. This is ugly
     for type in types:
         index = types.index(type)
         if type[0] == 'pose_array':
