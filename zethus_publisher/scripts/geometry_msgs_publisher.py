@@ -126,7 +126,7 @@ def publish_vector3_stamped(index):
 
 if __name__ == "__main__":
     try:
-        rospy.init_node("zethus_backend_geometry_msg_publisher")
+        rospy.init_node("zethus_backend_geometry_publisher")
 
         types = [('pose_array',PoseArray), ('pose_stamped',PoseStamped), ('polygon_stamped', PolygonStamped), ('wrench_stamped', WrenchStamped) ,('accel_stamped',AccelStamped),('twist_stamped', TwistStamped),('vector3_stamped', Vector3Stamped)]
         geometry_publisher = []
