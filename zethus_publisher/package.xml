@@ -50,6 +50,25 @@
   <!--   <doc_depend>doxygen</doc_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
 
+  <depend>eigen</depend>
+  <depend>moveit_core</depend>
+  <depend>moveit_grasps</depend>
+  <depend>moveit_planners_ompl</depend>
+  <depend>moveit_ros_planning</depend>
+  <depend>moveit_visual_tools</depend>
+  <depend>roscpp</depend>
+  <depend>roslint</depend>
+  <depend>rosparam_shortcuts</depend>
+  <depend>tf2_ros</depend>
+  <depend>tf2_eigen</depend>
+  <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>tf</depend>
+  <depend>rosbridge_server</depend>
+
+  <test_depend>rostest</test_depend>
+  <test_depend>rosunit</test_depend>
+
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

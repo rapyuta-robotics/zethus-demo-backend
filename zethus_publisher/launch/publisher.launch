@@ -13,5 +13,6 @@
   <node name="zethus_backend_sensor_publisher" pkg="zethus_publisher" type="sensor_msgs_publisher.py" respawn="false"/>
   <node name="zethus_backend_geometry_publisher" pkg="zethus_publisher" type="geometry_msgs_publisher.py" respawn="false"/>
   <node name="zethus_backend_nav_publisher" pkg="zethus_publisher" type="nav_msgs_publisher.py" respawn="false"/>
+  <node name="zethus_backend_moveit_publisher" pkg="zethus_publisher" type="moveit_msgs_publisher" respawn="false" output="screen"/>
 
 </launch>
