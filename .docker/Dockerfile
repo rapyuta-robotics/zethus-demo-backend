@@ -38,6 +38,8 @@ RUN rm /root/.ssh/id_rsa
 RUN rosdep update && \
     rosdep install -y --from-paths . --ignore-src --rosdistro ${ROS_DISTRO} --as-root=apt:false
 
+RUN apt-get -qq install ros-kinetic-rosbridge-server
+
 # Configures environment
 WORKDIR $CATKIN_WS
 ENV TERM xterm
