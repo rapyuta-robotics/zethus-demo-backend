@@ -10,13 +10,14 @@ from geometry_msgs.msg import Point
 from std_msgs.msg import ColorRGBA
 
 def main():
-    iter = range(5)
-    for i in cycle(iter):
-        publish_marker(float(i))
-        publish_marker_array(float(i))
-        rospy.Rate(1).sleep()
-
-    rospy.spin()
+    for i in cycle(range(5)):
+        if not rospy.is_shutdown():
+            iter = float(i)
+            publish_marker(iter)
+            publish_marker_array(iter)
+            rospy.Rate(1).sleep()
+        else:
+            break
 
 def publish_marker(iter):
     for type in types:
@@ -88,7 +89,6 @@ def get_marker_attributes(index, iter):
         marker.scale.y = 0.1 + (iter/20)
 
     if marker.type == marker.LINE_STRIP:
-        print("saving to cache")
         del cache [:]
         cache.append(marker.points)
         cache.append(marker.colors)
@@ -133,8 +133,6 @@ def copy_marker_attributes(sample):
     marker.colors = sample.colors
 
     return marker
-
-
 
 
 if __name__ == "__main__":

@@ -2,62 +2,68 @@
 
 import rospy
 import random
+from itertools import cycle
+
 from geometry_msgs.msg import Pose, PoseArray, PoseStamped, PolygonStamped, Polygon, Point32, WrenchStamped, AccelStamped, TwistStamped, Vector3Stamped
 
 def main():
-    #TODO: Change this logic to pass publisher index to the methods. This is ugly
-    for type in types:
-        index = types.index(type)
-        if type[0] == 'pose_array':
-            publish_pose_array(index)
-        elif type[0] == 'pose_stamped':
-            publish_pose_stamped(index)
-        elif type[0] == 'polygon_stamped':
-            publish_polygon_stamped(index)
-        elif type[0] == 'wrench_stamped':
-            publish_wrench_stamped(index)
-        elif type[0] == 'accel_stamped':
-            publish_accel_stamped(index)
-        elif type[0] == 'twist_stamped':
-            publish_twist_stamped(index)
-        elif type[0] == 'vector3_stamped':
-            publish_vector3_stamped(index)
+    for i in cycle(range(3)):
+        if not rospy.is_shutdown():
+            iter = float(i)
+            #TODO: Change this logic to pass publisher index to the methods. This is ugly
+            for type in types:
+                index = types.index(type)
+                if type[0] == 'pose_array':
+                    publish_pose_array(index, iter)
+                elif type[0] == 'pose_stamped':
+                    publish_pose_stamped(index, iter)
+                elif type[0] == 'polygon_stamped':
+                    publish_polygon_stamped(index, iter)
+                elif type[0] == 'wrench_stamped':
+                    publish_wrench_stamped(index, iter)
+                elif type[0] == 'accel_stamped':
+                    publish_accel_stamped(index, iter)
+                elif type[0] == 'twist_stamped':
+                    publish_twist_stamped(index, iter)
+                elif type[0] == 'vector3_stamped':
+                    publish_vector3_stamped(index, iter)
+            rospy.Rate(1).sleep()
+        else:
+            break
 
-    rospy.spin()
-
-def publish_pose_array(index):
+def publish_pose_array(index, iter):
     pose_array = PoseArray()
     pose_array.header.frame_id = 'world'
     pose_array.header.stamp = rospy.get_rostime()
     for i in range(10):
         pose = Pose()
-        pose.position.x = i 
-        pose.position.y = 3
-        pose.position.z = 0
-        pose.orientation.x = 0
-        pose.orientation.y = 0
-        pose.orientation.z = 0
-        pose.orientation.w = 0
+        pose.position.x = iter
+        pose.position.y = 2 + (-1 if (iter % 2 == 0) else 1) 
+        pose.position.z = i
+        pose.orientation.x = random.uniform(-2, 2)
+        pose.orientation.y = random.uniform(-2, 2)
+        pose.orientation.z = random.uniform(-2, 2)
+        pose.orientation.w = 1
         pose_array.poses.append(pose)
     
     geometry_publisher[index].publish(pose_array)
 
-def publish_pose_stamped(index):
+def publish_pose_stamped(index, iter):
     pose_stamped = PoseStamped()
     pose_stamped.header.frame_id = 'world'
     pose_stamped.header.stamp = rospy.get_rostime()
-    pose_stamped.pose.position.x = 3
-    pose_stamped.pose.position.y = 4
-    pose_stamped.pose.position.z = 0
-    pose_stamped.pose.orientation.x = 0
-    pose_stamped.pose.orientation.y = 0
-    pose_stamped.pose.orientation.z = 0
-    pose_stamped.pose.orientation.w = 0
+    pose_stamped.pose.position.x = iter
+    pose_stamped.pose.position.y = 5
+    pose_stamped.pose.position.z = iter
+    pose_stamped.pose.orientation.x = random.uniform(-2, 2)
+    pose_stamped.pose.orientation.y = random.uniform(-2, 2)
+    pose_stamped.pose.orientation.z = random.uniform(-2, 2)
+    pose_stamped.pose.orientation.w = 1 
 
     geometry_publisher[index].publish(pose_stamped)
 
 
-def publish_polygon_stamped(index):
+def publish_polygon_stamped(index, iter):
     poly_stamped = PolygonStamped()
     poly_stamped.header.frame_id = 'world'
     poly_stamped.header.stamp = rospy.get_rostime()
@@ -73,7 +79,7 @@ def publish_polygon_stamped(index):
     geometry_publisher[index].publish(poly_stamped)
 
 
-def publish_wrench_stamped(index):
+def publish_wrench_stamped(index, iter):
     wrench_stamped = WrenchStamped()
     wrench_stamped.header.frame_id = 'world'
     wrench_stamped.header.stamp = rospy.get_rostime()  
@@ -86,7 +92,7 @@ def publish_wrench_stamped(index):
 
     geometry_publisher[index].publish(wrench_stamped)
 
-def publish_accel_stamped(index):
+def publish_accel_stamped(index, iter):
     accel_stamped = AccelStamped()
     accel_stamped.header.frame_id = 'world'
     accel_stamped.header.stamp = rospy.get_rostime()
@@ -99,7 +105,7 @@ def publish_accel_stamped(index):
 
     geometry_publisher[index].publish(accel_stamped)
 
-def publish_twist_stamped(index):
+def publish_twist_stamped(index, iter):
     twist_stamped = TwistStamped()
     twist_stamped.header.seq = 1
     twist_stamped.header.frame_id = 'world'
@@ -113,7 +119,7 @@ def publish_twist_stamped(index):
 
     geometry_publisher[index].publish(twist_stamped)
 
-def publish_vector3_stamped(index):
+def publish_vector3_stamped(index, iter):
     vector3_stamped = Vector3Stamped()
     vector3_stamped.header.seq = 1
     vector3_stamped.header.frame_id = 'world'
@@ -129,6 +135,7 @@ if __name__ == "__main__":
     try:
         rospy.init_node("zethus_backend_geometry_publisher")
 
+        cache = []
         types = [('pose_array',PoseArray), ('pose_stamped',PoseStamped), ('polygon_stamped', PolygonStamped), ('wrench_stamped', WrenchStamped) ,('accel_stamped',AccelStamped),('twist_stamped', TwistStamped),('vector3_stamped', Vector3Stamped)]
         geometry_publisher = []
 
