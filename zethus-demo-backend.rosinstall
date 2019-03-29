@@ -16,6 +16,6 @@
     version: hydro-devel
 
 - git:
-    uri: vhttps://github.com/RobotWebTools/web_video_server.git
+    uri: https://github.com/RobotWebTools/web_video_server.git
     local-name: web_video_server
     version: develop
