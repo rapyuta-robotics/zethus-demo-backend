@@ -14,7 +14,7 @@ WORKDIR $CATKIN_WS/src
 # Install SHH
 # Note: --fix-missing is run to fix an issue with an outdated ros-kinetic-rviz-visual-tools
 RUN apt-get -qq update --fix-missing && \
-    apt-get -qq install -y wget ssh python-catkin-tools python-wstool
+    apt-get -qq install -y wget ssh python-catkin-tools python-wstool curl
 
 # Setup for ssh onto github & bitbucket
 # Before running Docker, run locally: `cp ~/.ssh/id_rsa_unsafe id_rsa`
@@ -24,11 +24,17 @@ RUN chmod 700 /root/.ssh/id_rsa
 
 RUN ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
+RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
+    apt-get -qq install git-lfs
+
 WORKDIR $CATKIN_WS/src
 
 # Download source
 RUN git clone git@github.com:rapyuta-robotics/zethus-demo-backend.git
-RUN cd zethus-demo-backend && git checkout publisher
+RUN cd zethus-demo-backend && git checkout fix/pointcloud_docker
+RUN wstool init . && \
+    wstool merge ./zethus-demo-backend/zethus-demo-backend.rosinstall && \
+    wstool update
 RUN rm /root/.ssh/id_rsa
 
 # Note that because we're building on top of kinetic-ci, there should not be
