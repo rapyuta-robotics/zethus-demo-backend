@@ -10,6 +10,9 @@
     <arg name="port" value="$(arg webserver_port)" />
   </include>
 
+  <node pkg="tf2_ros" type="static_transform_publisher" name="imarker_transform_to_world_broadcaster" args="0 0 0 0 0 0 world base_link">
+  </node>
+
   <node name="zethus_backend_marker_publisher" pkg="zethus_publisher" type="visualization_msgs_publisher.py" respawn="false"/>
   <node name="zethus_backend_sensor_publisher" pkg="zethus_publisher" type="sensor_msgs_publisher.py" respawn="false"/>
   <node name="zethus_backend_geometry_publisher" pkg="zethus_publisher" type="geometry_msgs_publisher.py" respawn="false"/>
@@ -17,5 +20,6 @@
   <include file="$(find zethus_publisher)/launch/point_cloud_publisher.launch">
     <arg name="port" value="$(arg pcl_port)" />
   </include>
+  <node name="zethus_backend_interactive_marker_publisher" pkg="interactive_marker_tutorials" type="basic_controls" respawn="false" />
 
 </launch>
