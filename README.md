@@ -21,10 +21,12 @@ If git lfs is not setup, the mesh file will not be downloaded for visualizing `M
 
 1. Download the required repositories and install any dependencies:
 
-        git clone git@github.com:rapyuta-robotics/zethus-backend-demo.git
+        git clone git@github.com:rapyuta-robotics/zethus-demo-backend.git
+        cd zethus-demo-publisher
         git checkout publisher
+        cd ..
         wstool init .
-        wstool merge zethus-backend-demo/zethus-backend-demo.rosinstall
+        wstool merge zethus-demo-backend/zethus-demo-backend.rosinstall
         wstool update
         rosdep install --from-paths . --ignore-src --rosdistro kinetic
 
