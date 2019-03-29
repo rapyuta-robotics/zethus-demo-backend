@@ -50,9 +50,9 @@
   <!--   <doc_depend>doxygen</doc_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
 
-  <depend>depthcloud_encoder</depend>
+  <!-- <depend>depthcloud_encoder</depend>
   <depend>point_cloud_converter</depend>
-  <depend>web_video_server</depend>
+  <depend>web_video_server</depend> -->
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

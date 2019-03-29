@@ -7,7 +7,7 @@
 
   <!-- Launch rosbridge server -->
   <include if="$(arg start_webserver)" file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
-    <arg name="port" value="$(arg pcl_port)" />
+    <arg name="port" value="$(arg webserver_port)" />
   </include>
 
   <node name="zethus_backend_marker_publisher" pkg="zethus_publisher" type="visualization_msgs_publisher.py" respawn="false"/>
