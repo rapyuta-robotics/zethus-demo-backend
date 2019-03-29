@@ -1,0 +1,21 @@
+# Used with wstool, users can download and source of all packages in this.
+
+- git:
+    uri: https://github.com/GT-RAIL/async_web_server_cpp.git
+    local-name: async_web_server_cpp
+    version: develop
+
+- git:
+    uri: https://github.com/RobotWebTools/depthcloud_encoder.git
+    local-name: depthcloud_encoder
+    version: develop
+
+- git:
+    uri: https://github.com/pal-robotics-forks/point_cloud_converter.git
+    local-name: point_cloud_converter
+    version: hydro-devel
+
+- git:
+    uri: vhttps://github.com/RobotWebTools/web_video_server.git
+    local-name: web_video_server
+    version: develop

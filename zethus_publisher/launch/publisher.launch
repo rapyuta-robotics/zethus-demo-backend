@@ -3,15 +3,19 @@
   <!-- Set true to launch websocket_server -->
   <arg name="start_webserver" default="false" />
   <arg name="webserver_port" default="9090" />
+  <arg name="pcl_port" default="8888" />
 
-  	<!-- Launch rosbridge server -->
+  <!-- Launch rosbridge server -->
   <include if="$(arg start_webserver)" file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
-    <arg name="port" value="$(arg webserver_port)" />
+    <arg name="port" value="$(arg pcl_port)" />
   </include>
 
   <node name="zethus_backend_marker_publisher" pkg="zethus_publisher" type="visualization_msgs_publisher.py" respawn="false"/>
   <node name="zethus_backend_sensor_publisher" pkg="zethus_publisher" type="sensor_msgs_publisher.py" respawn="false"/>
   <node name="zethus_backend_geometry_publisher" pkg="zethus_publisher" type="geometry_msgs_publisher.py" respawn="false"/>
   <node name="zethus_backend_nav_publisher" pkg="zethus_publisher" type="nav_msgs_publisher.py" respawn="false"/>
+  <include file="$(find zethus_publisher)/launch/point_cloud_publisher.launch">
+    <arg name="port" value="$(arg pcl_port)" />
+  </include>
 
 </launch>
