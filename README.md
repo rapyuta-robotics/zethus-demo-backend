@@ -61,5 +61,5 @@ You must have a private rsa key `~/.ssh/id_rsa` that is not password protected a
 
 ## Run the publisher
 ```
-roslaunch zethus_publisher publisher.launch start_webserver:=true webserver_port:=9090
+roslaunch zethus_publisher publisher.launch start_webserver:=true webserver_port:=9090 pcl_port:=8888
 ```
