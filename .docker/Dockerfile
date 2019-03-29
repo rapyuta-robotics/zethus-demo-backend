@@ -31,7 +31,7 @@ WORKDIR $CATKIN_WS/src
 
 # Download source
 RUN git clone git@github.com:rapyuta-robotics/zethus-demo-backend.git
-RUN cd zethus-demo-backend && git checkout fix/pointcloud_docker
+RUN cd zethus-demo-backend && git checkout publisher
 RUN wstool init . && \
     wstool merge ./zethus-demo-backend/zethus-demo-backend.rosinstall && \
     wstool update
