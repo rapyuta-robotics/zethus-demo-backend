@@ -27,10 +27,7 @@ RUN ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 WORKDIR $CATKIN_WS/src
 
 # Download source
-RUN git clone git@github.com:rapyuta-robotics/zethus-demo-backend.git && \
-    wstool init . && \
-    wstool merge ./zethus-demo-backend/zethus-demo-backend.rosinstall && \
-    wstool update
+RUN git clone git@github.com:rapyuta-robotics/zethus-demo-backend.git
 RUN cd zethus-demo-backend && git checkout publisher
 RUN rm /root/.ssh/id_rsa
 
