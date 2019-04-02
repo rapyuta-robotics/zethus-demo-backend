@@ -21,5 +21,5 @@
     <arg name="port" value="$(arg pcl_port)" />
   </include>
   <node name="zethus_backend_interactive_marker_publisher" pkg="interactive_marker_tutorials" type="basic_controls" respawn="false" />
-
+  <node pkg="rosbag" type="play" name="zethus_backend_odometry_publisher" output="screen" args="-l $(find zethus_publisher)/rosbags/odometry_forklift.bag" />
 </launch>
