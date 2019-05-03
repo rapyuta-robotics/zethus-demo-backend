@@ -8,53 +8,55 @@ from visualization_msgs.msg import Marker, MarkerArray
 from geometry_msgs.msg import Point
 from std_msgs.msg import ColorRGBA
 
-def make_markers():
+marker_id = 0
+
+def main():
 	while not rospy.is_shutdown():
-		marker = Marker()
+		global marker_id
+		marker_id = 0
 		for type in types:
+			marker = Marker()
 			index = types.index(type)
+			marker = get_marker_attributes(float(index))
 			marker.pose.position.y = float(index) / 5
-			make_and_publish_marker(index, marker)
 			make_and_publish_marker_aray(index, marker)
+		demo_publisher.publish(demo_marker_array)
+		del(demo_marker_array.markers[:])
 		rospy.Rate(50).sleep()
-
-
-def make_and_publish_marker(index, marker):
-	get_marker_attributes(float(index), marker)
-
-	marker_publisher[index].publish(marker)
-	display_label(marker, index)
-
+		# rospy.spin()
 
 def make_and_publish_marker_aray(index, marker):
+	global marker_id
+	display_label(marker, index)
 	marker_array = MarkerArray()
 	pose_x = 0.2
 	count = 5
 	for i in range(5):
+		marker_element = Marker()
 		marker_element = copy_marker_attributes(marker)
-		marker_element.id = i
+		marker_element.id = marker_id
 		marker_element.pose.position.x = pose_x
 		marker_element.scale.x /= i+1
 		marker_element.scale.y /= i+1
 		marker_element.scale.z /= i+1
-
+		
 		pct = float(i) / float(count)
 		marker_element.color.r = pct * 1.0 + (1 - pct) * 0.0
 		marker_element.color.g = pct * 0.0 + (1 - pct) * 1.0
 		marker_element.color.b = pct * 0.0 + (1 - pct) * 0.0
 		marker_element.color.a = 1.0
 
-		marker_array.markers.append(marker_element)
+		demo_marker_array.markers.append(marker_element)
+		marker_id += 1
 
 		pose_x += 0.2
 
-	marker_array_publisher[index].publish(marker_array)
-	return marker_array
-
-def display_label(marker, index, text=None):
+def display_label(marker=Marker(), index=0, text=None):
+	global marker_id
 	text_marker = Marker()
 	text_marker = copy_marker_attributes(marker)
 	# text_marker.header.frame_id = "world"
+	text_marker.id = marker_id
 	text_marker.type = marker.TEXT_VIEW_FACING
 	text_marker.pose.position.y = float(index) / 5
 	text_marker.scale.x = 0.04
@@ -70,10 +72,13 @@ def display_label(marker, index, text=None):
 		text_marker.text = text
 	text_marker.pose.position.x = -0.25
 
-	display_text_publisher.publish(text_marker)
+	# display_text_publisher.publish(text_marker)
+	demo_marker_array.markers.append(text_marker)
+	marker_id += 1
 
 
-def get_marker_attributes(index, marker):
+def get_marker_attributes(index):
+	marker = Marker()
 	marker.header.frame_id = "world"
 	marker.header.stamp = rospy.get_rostime()
 	marker.id = index
@@ -206,7 +211,7 @@ def get_marker_attributes(index, marker):
 			marker.colors.append(c)
 
 
-	# return marker
+	return marker
 
 
 def copy_marker_attributes(sample):
@@ -254,14 +259,8 @@ if __name__ == "__main__":
 		marker_publisher = []
 		marker_array_publisher = []
 
-		for type in types:
-			marker_publisher.append(rospy.Publisher(type[0], type[1], queue_size=1, latch=True))
-			marker_array_publisher.append(
-				rospy.Publisher('array_' + type[0], type[2], queue_size=1, latch=True)
-			)
-		display_text_publisher = rospy.Publisher('display_label', Marker, queue_size=1, latch=True)
-
-		publisher = rospy.Publisher('demo', MarkerArray, queue_size = 10, latch = True)
-		make_markers()
+		demo_marker_array = MarkerArray()
+		demo_publisher = rospy.Publisher('demo', MarkerArray, queue_size = 10, latch = True)
+		main()
 	except rospy.ROSInterruptException:
 		pass
