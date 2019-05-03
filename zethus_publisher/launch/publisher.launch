@@ -1,5 +1,6 @@
 <!-- -*- mode: XML -*- -->
 <launch>
+  <param name="use_sim_time" value="true" />
   <!-- Set true to launch websocket_server -->
   <arg name="start_webserver" default="false" />
   <arg name="webserver_port" default="9090" />
@@ -13,13 +14,43 @@
   <node pkg="tf2_ros" type="static_transform_publisher" name="imarker_transform_to_world_broadcaster" args="0 0 0 0 0 0 world base_link">
   </node>
 
-  <node name="zethus_backend_marker_publisher" pkg="zethus_publisher" type="visualization_msgs_publisher.py" respawn="false"/>
-  <node name="zethus_backend_sensor_publisher" pkg="zethus_publisher" type="sensor_msgs_publisher.py" respawn="false"/>
-  <node name="zethus_backend_geometry_publisher" pkg="zethus_publisher" type="geometry_msgs_publisher.py" respawn="false"/>
-  <node name="zethus_backend_nav_publisher" pkg="zethus_publisher" type="nav_msgs_publisher.py" respawn="false"/>
+  <node name="zethus_backend_marker_publisher" pkg="zethus_publisher" type="visualization_msgs_publisher.py" respawn="true"/>
+
+  <node name="zethus_backend_sensor_publisher" pkg="zethus_publisher" type="sensor_msgs_publisher.py" respawn="true"/>
+
+  <node name="zethus_backend_geometry_publisher" pkg="zethus_publisher" type="geometry_msgs_publisher.py" respawn="true"/>
+
+  <node name="zethus_backend_nav_publisher" pkg="zethus_publisher" type="nav_msgs_publisher.py" respawn="true"/>
+
   <include file="$(find zethus_publisher)/launch/point_cloud_publisher.launch">
     <arg name="port" value="$(arg pcl_port)" />
   </include>
+
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find franka_description)/robots/panda_arm_hand.urdf.xacro'" />  
+
   <node name="zethus_backend_interactive_marker_publisher" pkg="interactive_marker_tutorials" type="basic_controls" respawn="false" />
-  <node pkg="rosbag" type="play" name="zethus_backend_odometry_publisher" output="screen" args="-l $(find zethus_publisher)/rosbags/odometry_forklift.bag" />
+
+  <node pkg="rosbag" type="play" name="zethus_backend_tf_publisher" output="screen" args="-l --clock $(find zethus_publisher)/rosbags/panda_moveit_config_tf.bag" />
+
+  <node pkg="rosbag" type="play" name="zethus_backend_odometry_publisher" output="screen" args="-l $(find zethus_publisher)/rosbags/odom_posearray_path.bag">
+  	<remap from="/tricycle_drive_controller/odom" to="/odom_rosbag"/>
+  	<remap from="/diff_drive/move_base/TebLocalPlannerROS/local_plan" to="/path_rosbag"/> 
+    <remap from="/diff_drive/move_base/TebLocalPlannerROS/teb_poses" to="/pose_array_rosbag"/>
+  </node>
+
+  <node pkg="tf2_ros"
+        type="static_transform_publisher"
+        name="odom_to_map"
+        args="0 0 0 0 0 0 map odom"/>
+  <node pkg="tf2_ros"
+        type="static_transform_publisher"
+        name="map_to_world"
+        args="0 0 0 0 0 0 map world"/>
+
 </launch>
+
+
+
+
+
+
