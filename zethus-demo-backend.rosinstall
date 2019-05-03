@@ -24,3 +24,8 @@
     local-name: visualization_tutorials
     uri: https://github.com/ros-visualization/visualization_tutorials.git
     version: kinetic-devel
+
+- git:
+	local-name: panda_moveit_config
+	uri: https://github.com/ros-planning/panda_moveit_config.git
+	version: kinetic-devel
