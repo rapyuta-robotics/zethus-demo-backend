@@ -4,8 +4,8 @@ import random
 import math
 from itertools import cycle
 
-from geometry_msgs.msg import Pose, PoseArray, PoseStamped, PolygonStamped, Polygon, Point32, WrenchStamped, AccelStamped, TwistStamped, Vector3Stamped
-
+from geometry_msgs.msg import Pose, PoseArray, PoseStamped, PolygonStamped, Polygon, Point32, WrenchStamped, AccelStamped, TwistStamped, Vector3Stamped, PointStamped
+from visualization_msgs.msg import Marker
 
 def main():
     #for i in cycle(range(3)):
@@ -29,6 +29,8 @@ def main():
                 publish_twist_stamped(index, iter)
             elif type[0] == 'vector3_stamped':
                 publish_vector3_stamped(index, iter)
+            elif type[0] == 'point_stamped':
+                publish_point_stamped(index, iter)
         iter += 0.01
         rospy.Rate(100).sleep()
 
@@ -56,7 +58,6 @@ def publish_pose_array(index, iter):
 def publish_pose_stamped(index, iter):
     pose_stamped = PoseStamped()
     pose_stamped.header.frame_id = 'world'
-    pose_stamped.header.stamp = rospy.get_rostime()
     pose_stamped.pose.position.x = math.sin(iter)
     pose_stamped.pose.position.y = 5 + math.cos(iter)
     pose_stamped.pose.position.z = abs(math.cos(iter))
@@ -67,18 +68,27 @@ def publish_pose_stamped(index, iter):
 
     geometry_publisher[index].publish(pose_stamped)
 
+t = 0
 
 def publish_polygon_stamped(index, iter):
     poly_stamped = PolygonStamped()
-    poly_stamped.header.frame_id = 'world'
-    poly_stamped.header.stamp = rospy.get_rostime()
+    poly_stamped.header.frame_id = 'polygon_frame'
 
-    for i in range(4):
+    global t
+    dr = 0.1 * math.cos( t )
+    radii = [ 0.25-dr, 0.25+dr ]
+    radius_index = 0
+    num_points = 10
+    for i in range( 0, num_points ):
         point = Point32()
-        point.x = random.uniform(-1, 1)
-        point.y = random.uniform(-1, 1) - 2.0
-        point.z = random.uniform(-1, 1)
-        poly_stamped.polygon.points.append(point)
+        radius = radii[ radius_index ]
+        radius_index = (radius_index + 1) % 2
+        point.x = radius * math.cos( i * 2 * math.pi / num_points )
+        point.y = radius * math.sin( i * 2 * math.pi / num_points )
+        point.z = 0
+        poly_stamped.polygon.points.append( point )
+
+    t += .1
 
     geometry_publisher[index].publish(poly_stamped)
 
@@ -137,6 +147,16 @@ def publish_vector3_stamped(index, iter):
 
     geometry_publisher[index].publish(vector3_stamped)
 
+def publish_point_stamped(index, iter):
+    point_stamped = PointStamped()
+    point_stamped.header.frame_id = 'world'
+    point_stamped.header.stamp = rospy.get_rostime()
+    point_stamped.point.x = 0.0
+    point_stamped.point.y = -0.25
+    point_stamped.point.z = 0
+
+    geometry_publisher[index].publish(point_stamped)
+
 
 if __name__ == "__main__":
     try:
@@ -147,7 +167,7 @@ if __name__ == "__main__":
             ('pose_array', PoseArray), ('pose_stamped', PoseStamped),
             ('polygon_stamped', PolygonStamped), ('wrench_stamped', WrenchStamped),
             ('accel_stamped', AccelStamped), ('twist_stamped', TwistStamped),
-            ('vector3_stamped', Vector3Stamped)
+            ('vector3_stamped', Vector3Stamped),  ('point_stamped', PointStamped)
         ]
         geometry_publisher = []
 

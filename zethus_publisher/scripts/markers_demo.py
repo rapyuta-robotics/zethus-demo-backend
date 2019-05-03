@@ -29,7 +29,7 @@ def make_and_publish_marker_aray(index, marker):
 	global marker_id
 	display_label(marker, index)
 	marker_array = MarkerArray()
-	pose_x = 0.2
+	pose_x = 0.0
 	count = 5
 	for i in range(5):
 		marker_element = Marker()
