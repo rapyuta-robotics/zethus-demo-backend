@@ -8,35 +8,35 @@ def main():
     #TODO: Change this logic to pass publisher index to the methods. This is ugly
     for type in types:
         index = types.index(type)
-        if type[0] == 'odometry':
-            publish_odometry(index)
-        elif type[0] == 'occupancy_grid':
+        # if type[0] == 'odometry':
+        #     publish_odometry(index)
+        if type[0] == 'occupancy_grid':
             publish_occupancy_grid(index)
 
     rospy.spin()
 
 
-def publish_odometry(index):
-    odom = Odometry()
-    odom.header.stamp = rospy.Time.now()
-    odom.header.frame_id = "world"
-    odom.pose.pose.position.x = random.uniform(-2, 2)
-    odom.pose.pose.position.y = random.uniform(-2, 2)
-    odom.pose.pose.position.z = 0
-    odom.pose.pose.orientation.x = random.uniform(-2, 2)
-    odom.pose.pose.orientation.y = random.uniform(-2, 2)
-    odom.pose.pose.orientation.z = random.uniform(-2, 2)
-    odom.pose.pose.orientation.w = random.uniform(1, 2)
+# def publish_odometry(index):
+#     odom = Odometry()
+#     odom.header.stamp = rospy.Time.now()
+#     odom.header.frame_id = "world"
+#     odom.pose.pose.position.x = random.uniform(-2, 2)
+#     odom.pose.pose.position.y = random.uniform(-2, 2)
+#     odom.pose.pose.position.z = 0
+#     odom.pose.pose.orientation.x = random.uniform(-2, 2)
+#     odom.pose.pose.orientation.y = random.uniform(-2, 2)
+#     odom.pose.pose.orientation.z = random.uniform(-2, 2)
+#     odom.pose.pose.orientation.w = random.uniform(1, 2)
 
-    odom.child_frame_id = "base_link"
-    odom.twist.twist.linear.x = random.uniform(-2, 2)
-    odom.twist.twist.linear.y = random.uniform(-2, 2)
-    odom.twist.twist.linear.z = random.uniform(-2, 2)
-    odom.twist.twist.angular.x = random.uniform(-2, 2)
-    odom.twist.twist.angular.y = random.uniform(-2, 2)
-    odom.twist.twist.angular.z = random.uniform(-2, 2)
+#     odom.child_frame_id = "base_link"
+#     odom.twist.twist.linear.x = random.uniform(-2, 2)
+#     odom.twist.twist.linear.y = random.uniform(-2, 2)
+#     odom.twist.twist.linear.z = random.uniform(-2, 2)
+#     odom.twist.twist.angular.x = random.uniform(-2, 2)
+#     odom.twist.twist.angular.y = random.uniform(-2, 2)
+#     odom.twist.twist.angular.z = random.uniform(-2, 2)
 
-    nav_publisher[index].publish(odom)
+#     nav_publisher[index].publish(odom)
 
 
 def publish_occupancy_grid(index):
