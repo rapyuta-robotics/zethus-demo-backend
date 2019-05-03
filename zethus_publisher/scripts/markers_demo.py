@@ -67,7 +67,7 @@ def display_label(marker=Marker(), index=0, text=None):
 	text_marker.color.g = 1.0
 	text_marker.color.b = 1.0
 	if text == None:
-		text_marker.text = types[index][0]
+		text_marker.text = types[index]
 	else:
 		text_marker.text = text
 	text_marker.pose.position.x = -0.25
@@ -120,19 +120,19 @@ def get_marker_attributes(index):
 		for x in range(0,5):
 		  for y in range(0,5):
 			for z in range(0,5):
-			  p = Point()
-			  p.x = x * 0.02
-			  p.y = y * 0.02
-			  p.z = z * 0.02	
+				p = Point()
+				p.x = x * 0.02
+				p.y = y * 0.02
+				p.z = z * 0.02	
 
-			  marker.points.append(p)
+				marker.points.append(p)
 
-			  c = ColorRGBA()
-			  c.r = x * 0.2
-			  c.g = y * 0.2
-			  c.b = z * 0.2
-			  c.a = 1.0
-			  marker.colors.append(c)
+				c = ColorRGBA()
+				c.r = x * 0.2
+				c.g = y * 0.2
+				c.b = z * 0.2
+				c.a = 1.0
+				marker.colors.append(c)
 
 	elif index == marker.TRIANGLE_LIST:
 		marker.scale.x = 0.2
@@ -210,7 +210,6 @@ def get_marker_attributes(index):
 			c.a = 1.0
 			marker.colors.append(c)
 
-
 	return marker
 
 
@@ -249,12 +248,18 @@ if __name__ == "__main__":
 
 		cache = []
 		types = [
-			('arrow', Marker, MarkerArray), ('cube', Marker, MarkerArray),
-			('sphere', Marker, MarkerArray), ('cylinder', Marker, MarkerArray),
-			('line_strip', Marker, MarkerArray), ('line_list', Marker, MarkerArray),
-			('cube_list', Marker, MarkerArray), ('sphere_list', Marker, MarkerArray),
-			('points', Marker, MarkerArray), ('text_view_facing', Marker, MarkerArray),
-			('mesh_resource', Marker, MarkerArray), ('triangle_list', Marker, MarkerArray),
+			'arrow', 
+			'cube',
+			'sphere',
+			'cylinder',
+			'line_strip',
+			'line_list',
+			'cube_list',
+			'sphere_list',
+			'points',
+			'text_view_facing',
+			'mesh_resource',
+			'triangle_list'
 		]
 		marker_publisher = []
 		marker_array_publisher = []
