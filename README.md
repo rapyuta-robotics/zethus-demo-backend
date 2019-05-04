@@ -44,20 +44,19 @@ If git lfs is not setup, the mesh file will not be downloaded for visualizing `M
 
 ### Prerequisite
 
-You must have a private rsa key `~/.ssh/id_rsa` that is not password protected and is attached to your Github and Bitbucket accounts. You must also have a working installation of `docker`.
+You must have a working installation of `docker`.
 
-1. Navigate to `$CATKIN_WS/src/zethus-demo-backend/.docker`. You should see the `Dockerfile` recipe in the directory.
+1. Navigate to `$CATKIN_WS/src/zethus-demo-backend/`. You should see the `Dockerfile` recipe in the directory.
 
 1. Build the docker image
 
-        cd $CATKIN_WS/src/zethus-demo-backend/
         docker build -t zethus-publisher:kinetic-source .
 
 1. Run the docker image
 
     * Without the gui
 
-            docker run -it --rm zethus-publisher:kinetic-source /bin/bash
+        docker run -it --rm zethus-publisher:kinetic-source /bin/bash
 
 ## Run the publisher
 ```
