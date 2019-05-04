@@ -24,7 +24,7 @@ WORKDIR $CATKIN_WS/src
 
 # Copy source
 COPY . /root/ws_catkin/src/
-RUN git checkout publisher_update
+RUN git checkout publisher
 RUN wstool init . && \
     wstool merge zethus-demo-backend.rosinstall && \
     wstool update
