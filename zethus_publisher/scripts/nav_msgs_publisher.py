@@ -64,7 +64,7 @@ if __name__ == "__main__":
         rospy.init_node("zethus_backend_nav_publisher")
 
         types = [
-            #('odometry', Odometry), 
+            #('odometry', Odometry),
             ('occupancy_grid', OccupancyGrid)
         ]
         nav_publisher = []

@@ -167,11 +167,14 @@ if __name__ == "__main__":
 
         cache = []
         types = [
-            #('pose_array', PoseArray), 
+            #('pose_array', PoseArray),
             ('pose_stamped', PoseStamped),
-            ('polygon_stamped', PolygonStamped), ('wrench_stamped', WrenchStamped),
-            ('accel_stamped', AccelStamped), ('twist_stamped', TwistStamped),
-            ('vector3_stamped', Vector3Stamped), ('point_stamped', PointStamped)
+            ('polygon_stamped', PolygonStamped),
+            ('wrench_stamped', WrenchStamped),
+            ('accel_stamped', AccelStamped),
+            ('twist_stamped', TwistStamped),
+            ('vector3_stamped', Vector3Stamped),
+            ('point_stamped', PointStamped)
         ]
         geometry_publisher = []
 
