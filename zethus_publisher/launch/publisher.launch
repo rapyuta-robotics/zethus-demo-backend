@@ -34,7 +34,7 @@
   <param name="robot_description" command="$(find xacro)/xacro.py '$(find franka_description)/robots/panda_arm_hand.urdf.xacro'" />  
 
   <!-- tf -->
-  <node pkg="rosbag" type="play" name="zethus_backend_robot_tf_publisher" output="screen" args="-l $(find zethus_publisher)/rosbags/panda_moveit_config_tf.bag tf:=/tf_old" />
+  <node pkg="rosbag" type="play" name="zethus_backend_robot_tf_publisher" output="screen" args="-l $(find zethus_publisher)/rosbags/panda_tf.bag tf:=/tf_old" />
 
   <!-- nav_msgs (odom, pose_array, path) -->
   <node pkg="rosbag" type="play" name="zethus_backend_odometry_publisher" output="screen" 
@@ -50,5 +50,5 @@
   <node pkg="tf2_ros" type="static_transform_publisher" name="odom_to_map" args="0 0 0 0 0 0 map odom"/>
 
   <node pkg="tf2_ros" type="static_transform_publisher" name="map_to_world" args="-6 -6 0 0 0 0 world map"/>
-  
+
 </launch>
