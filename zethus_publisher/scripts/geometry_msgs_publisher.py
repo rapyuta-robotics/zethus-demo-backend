@@ -9,10 +9,8 @@ from visualization_msgs.msg import Marker
 
 
 def main():
-    #for i in cycle(range(3)):
     iter = 0.0
     while not rospy.is_shutdown():
-        #iter = float(i)
         #TODO: Change this logic to pass publisher index to the methods. This is ugly
         for type in types:
             index = types.index(type)
@@ -169,7 +167,8 @@ if __name__ == "__main__":
 
         cache = []
         types = [
-            ('pose_array', PoseArray), ('pose_stamped', PoseStamped),
+            #('pose_array', PoseArray), 
+            ('pose_stamped', PoseStamped),
             ('polygon_stamped', PolygonStamped), ('wrench_stamped', WrenchStamped),
             ('accel_stamped', AccelStamped), ('twist_stamped', TwistStamped),
             ('vector3_stamped', Vector3Stamped), ('point_stamped', PointStamped)

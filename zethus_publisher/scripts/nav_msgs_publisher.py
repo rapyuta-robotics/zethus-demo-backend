@@ -9,8 +9,7 @@ def main():
     for type in types:
         index = types.index(type)
         if type[0] == 'odometry':
-            pass
-            # publish_odometry(index)
+            publish_odometry(index)
         elif type[0] == 'occupancy_grid':
             publish_occupancy_grid(index)
 
@@ -64,7 +63,10 @@ if __name__ == "__main__":
     try:
         rospy.init_node("zethus_backend_nav_publisher")
 
-        types = [('odometry', Odometry), ('occupancy_grid', OccupancyGrid)]
+        types = [
+            #('odometry', Odometry), 
+            ('occupancy_grid', OccupancyGrid)
+        ]
         nav_publisher = []
 
         for type in types:

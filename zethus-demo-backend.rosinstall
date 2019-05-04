@@ -20,7 +20,7 @@
     local-name: web_video_server
     version: develop
 
-- git:
-    local-name: visualization_tutorials
-    uri: https://github.com/ros-visualization/visualization_tutorials.git
-    version: kinetic-devel
+# - git:
+#     local-name: visualization_tutorials
+#     uri: https://github.com/ros-visualization/visualization_tutorials.git
+#     version: kinetic-devel
