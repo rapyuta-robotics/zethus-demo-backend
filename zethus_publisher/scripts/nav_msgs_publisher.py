@@ -9,7 +9,8 @@ def main():
     for type in types:
         index = types.index(type)
         if type[0] == 'odometry':
-            publish_odometry(index)
+            pass
+            # publish_odometry(index)
         elif type[0] == 'occupancy_grid':
             publish_occupancy_grid(index)
 

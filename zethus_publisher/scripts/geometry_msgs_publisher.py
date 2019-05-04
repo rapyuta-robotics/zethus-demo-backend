@@ -7,6 +7,7 @@ from itertools import cycle
 from geometry_msgs.msg import Pose, PoseArray, PoseStamped, PolygonStamped, Polygon, Point32, WrenchStamped, AccelStamped, TwistStamped, Vector3Stamped, PointStamped
 from visualization_msgs.msg import Marker
 
+
 def main():
     #for i in cycle(range(3)):
     iter = 0.0
@@ -58,6 +59,7 @@ def publish_pose_array(index, iter):
 def publish_pose_stamped(index, iter):
     pose_stamped = PoseStamped()
     pose_stamped.header.frame_id = 'world'
+    pose_stamped.header.stamp = rospy.get_rostime()
     pose_stamped.pose.position.x = math.sin(iter)
     pose_stamped.pose.position.y = 5 + math.cos(iter)
     pose_stamped.pose.position.z = abs(math.cos(iter))
@@ -68,25 +70,27 @@ def publish_pose_stamped(index, iter):
 
     geometry_publisher[index].publish(pose_stamped)
 
+
 t = 0
+
 
 def publish_polygon_stamped(index, iter):
     poly_stamped = PolygonStamped()
     poly_stamped.header.frame_id = 'polygon_frame'
-
+    poly_stamped.header.stamp = rospy.get_rostime()
     global t
-    dr = 0.1 * math.cos( t )
-    radii = [ 0.25-dr, 0.25+dr ]
+    dr = 0.1 * math.cos(t)
+    radii = [0.25 - dr, 0.25 + dr]
     radius_index = 0
     num_points = 10
-    for i in range( 0, num_points ):
+    for i in range(0, num_points):
         point = Point32()
-        radius = radii[ radius_index ]
+        radius = radii[radius_index]
         radius_index = (radius_index + 1) % 2
-        point.x = radius * math.cos( i * 2 * math.pi / num_points )
-        point.y = radius * math.sin( i * 2 * math.pi / num_points )
+        point.x = radius * math.cos(i * 2 * math.pi / num_points)
+        point.y = radius * math.sin(i * 2 * math.pi / num_points)
         point.z = 0
-        poly_stamped.polygon.points.append( point )
+        poly_stamped.polygon.points.append(point)
 
     t += .1
 
@@ -147,6 +151,7 @@ def publish_vector3_stamped(index, iter):
 
     geometry_publisher[index].publish(vector3_stamped)
 
+
 def publish_point_stamped(index, iter):
     point_stamped = PointStamped()
     point_stamped.header.frame_id = 'world'
@@ -167,7 +172,7 @@ if __name__ == "__main__":
             ('pose_array', PoseArray), ('pose_stamped', PoseStamped),
             ('polygon_stamped', PolygonStamped), ('wrench_stamped', WrenchStamped),
             ('accel_stamped', AccelStamped), ('twist_stamped', TwistStamped),
-            ('vector3_stamped', Vector3Stamped),  ('point_stamped', PointStamped)
+            ('vector3_stamped', Vector3Stamped), ('point_stamped', PointStamped)
         ]
         geometry_publisher = []
 
