@@ -50,8 +50,8 @@ You must have a private rsa key `~/.ssh/id_rsa` that is not password protected a
 
 1. Build the docker image
 
-        cd $CATKIN_WS/src/zethus-demo-backend/.docker
-        cp ~/.ssh/id_rsa id_rsa && docker build -t zethus-publisher:kinetic-source .; rm id_rsa
+        cd $CATKIN_WS/src/zethus-demo-backend/
+        docker build -t zethus-publisher:kinetic-source .
 
 1. Run the docker image
 
