@@ -20,8 +20,9 @@ def main():
             index = types.index(type)
             marker = get_marker_attributes(float(index))
             marker.pose.position.y = float(index) / 5
+            marker_publisher[index].publish(marker)
             make_and_publish_marker_aray(index, marker)
-        demo_publisher.publish(demo_marker_array)
+        demo_array_publisher.publish(demo_marker_array)
         del (demo_marker_array.markers[:])
         rospy.Rate(50).sleep()
         # rospy.spin()
@@ -31,7 +32,7 @@ def make_and_publish_marker_aray(index, marker):
     global marker_id
     display_label(marker, index)
     marker_array = MarkerArray()
-    pose_x = 0.0
+    pose_x = 0.2
     count = 5
     for i in range(5):
         marker_element = Marker()
@@ -256,10 +257,12 @@ if __name__ == "__main__":
             'sphere_list', 'points', 'text_view_facing', 'mesh_resource', 'triangle_list'
         ]
         marker_publisher = []
-        marker_array_publisher = []
+
+        for type in types:
+            marker_publisher.append(rospy.Publisher(type, Marker, queue_size=1, latch=True))
 
         demo_marker_array = MarkerArray()
-        demo_publisher = rospy.Publisher('demo', MarkerArray, queue_size=10, latch=True)
+        demo_array_publisher = rospy.Publisher('markers_demo', MarkerArray, queue_size=10, latch=True)
         main()
     except rospy.ROSInterruptException:
         pass
