@@ -263,7 +263,9 @@ if __name__ == "__main__":
             marker_publisher.append(rospy.Publisher(type, Marker, queue_size=1, latch=True))
 
         demo_marker_array = MarkerArray()
-        demo_array_publisher = rospy.Publisher('markers_demo', MarkerArray, queue_size=10, latch=True)
+        demo_array_publisher = rospy.Publisher(
+            'markers_demo', MarkerArray, queue_size=10, latch=True
+        )
         main()
     except rospy.ROSInterruptException:
         pass
