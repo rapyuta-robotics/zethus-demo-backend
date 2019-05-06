@@ -2,6 +2,11 @@
 
 	<arg name="port" default="8888" />
 
+	<node name="throttle_pointcloud" pkg="topic_tools" type="throttle" args="messages /pointcloud2 1.5 /pointcloud2_throttled" />
+	<node name="throttle_rgb_image" pkg="topic_tools" type="throttle" args="messages /camera/depth/image_raw 10 /camera/depth/image_raw_throttled" />
+	<node name="throttle_depth_image" pkg="topic_tools" type="throttle" args="messages /camera/rgb/image_raw 10 /camera/rgb/image_raw_throttled" />
+	<node name="throttle_depthcloud_encoded" pkg="topic_tools" type="throttle" args="messages /depthcloud_encoded 1.5 /depthcloud_encoded_throttled" />
+
 	<node pkg="rosbag" type="play" name="rosbag" output="screen" args="-l $(find zethus_publisher)/rosbags/pointcloud_turtlebot.bag" >
 		<remap from="/camera/depth/points" to="/pointcloud2" />
 	</node>
@@ -11,12 +16,12 @@
 	</node>
 
 	<node pkg="depthcloud_encoder" type="depthcloud_encoder_node" name="depthcloud_encoder_node">
-		<param name="depth" value="/camera/depth/image_raw"/>
-		<param name="rgb" value="/camera/rgb/image_raw"/>
+		<param name="depth" value="/camera/depth/image_raw_throttled"/>
+		<param name="rgb" value="/camera/rgb/image_raw_throttled"/>
 	</node>	
 
 	<node pkg="point_cloud_converter" name="point_cloud_converter" type="point_cloud_converter_node" >	
-		<remap from="points2_in" to="/pointcloud2" />
+		<remap from="points2_in" to="/pointcloud2_throttled" />
 		<remap from="points_out" to="/pointcloud" />	
 	</node>
 
