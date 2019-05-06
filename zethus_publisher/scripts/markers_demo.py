@@ -20,8 +20,9 @@ def main():
             index = types.index(type)
             marker = get_marker_attributes(float(index))
             marker.pose.position.y = float(index) / 5
-            marker_publisher[index].publish(marker)
-            make_and_publish_marker_aray(index, marker)
+            if index != marker.MESH_RESOURCE:
+                marker_publisher[index].publish(marker)
+                make_and_publish_marker_aray(index, marker)
         demo_array_publisher.publish(demo_marker_array)
         del (demo_marker_array.markers[:])
         rospy.Rate(50).sleep()
