@@ -16,15 +16,10 @@ WORKDIR $CATKIN_WS/src
 RUN apt-get -qq update --fix-missing && \
     apt-get -qq install -y wget ssh python-catkin-tools python-wstool curl
 
-
-RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
-    apt-get -qq install git-lfs
-
 WORKDIR $CATKIN_WS/src
 
 # Copy source
 COPY . /root/ws_catkin/src/
-RUN git checkout publisher
 RUN wstool init . && \
     wstool merge zethus-demo-backend.rosinstall && \
     wstool update
@@ -37,8 +32,6 @@ RUN wstool init . && \
 RUN rosdep update && \
     rosdep install -y --from-paths . --ignore-src --rosdistro ${ROS_DISTRO} --as-root=apt:false
 
-RUN apt-get -qq install ros-kinetic-rosbridge-server
-
 # Configures environment
 WORKDIR $CATKIN_WS
 ENV TERM xterm
@@ -48,6 +41,6 @@ ENV PYTHONIOENCODING UTF-8
 # timing out, but not too much such that the Docker log gets too long (another
 # form of timeout)
 RUN catkin config --extend /opt/ros/${ROS_DISTRO} --cmake-args -DCMAKE_BUILD_TYPE=Release && \
-    catkin build --jobs 1 --limit-status-rate 0.001 --no-notify && \
-    echo '. /opt/ros/kinetic/setup.bash' >> ~/.bashrc && \
-    echo '. $CATKIN_WS/devel/setup.bash' >> ~/.bashrc
+    catkin build --jobs 1 --limit-status-rate 0.001 --no-notify
+
+CMD ["/bin/bash", "-c", "source /opt/ros/kinetic/setup.bash && source $CATKIN_WS/devel/setup.bash && roslaunch zethus_publisher publisher.launch start_webserver:=true webserver_port:=9090 pcl_port:=8888"]
