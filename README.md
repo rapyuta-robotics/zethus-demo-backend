@@ -56,7 +56,9 @@ You must have a working installation of `docker`.
 
     * Without the gui
 
-        docker run -p 9090:9090 -p 8888:8888 -it --rm zethus-publisher:kinetic-source /bin/bash
+            docker run -p 9090:9090 -p 8888:8888 -it --rm zethus-publisher:kinetic-source
+
+    Launch file is launched automatically on running docker image
 
 ## Run the publisher
 ```
