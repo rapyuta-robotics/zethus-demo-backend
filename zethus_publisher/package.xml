@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>zethus_publisher</name>
+  <version>0.0.0</version>
+  <description>The zethus_publisher package</description>
+
+  <maintainer email="athish.thirumal@rapyuta-robotics.com">Athish Thirumal</maintainer>
+  <author email="athish.thirumal@rapyuta-robotics.com">Athish Thirumal</author>
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>rospy</depend>
+  <depend>tf2_ros</depend>
+  <depend>franka_description</depend>
+  <depend>rosbridge_server</depend>
+
+</package>

@@ -1,0 +1,54 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+  <!-- Set true to launch websocket_server -->
+  <arg name="start_webserver" default="false" />
+  <arg name="webserver_port" default="9090" />
+  <arg name="pcl_port" default="8888" />
+
+  <!-- Launch rosbridge server -->
+  <include if="$(arg start_webserver)" file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
+    <arg name="port" value="$(arg webserver_port)" />
+  </include>
+
+  <!-- To republis rosbag tf in curren time -->
+  <node name="tf_republisher" pkg="zethus_publisher" type="tf_republisher.py" respawn="false" />
+
+  <!-- Visualization markers -->
+  <node name="zethus_backend_marker_publisher" pkg="zethus_publisher" type="markers_demo.py" respawn="false"/>
+
+  <!-- sensor_msgs (join state, laser scan, range, magnetic field -->
+  <node name="zethus_backend_sensor_publisher" pkg="zethus_publisher" type="sensor_msgs_publisher.py" respawn="false"/>
+
+  <!-- geometry_msgs (Only polygon visualized dor demo)-->
+  <node name="zethus_backend_geometry_publisher" pkg="zethus_publisher" type="geometry_msgs_publisher.py" respawn="false"/>
+
+  <!-- nav_msgs (Only Map used for demo) -->
+  <node name="zethus_backend_nav_publisher" pkg="zethus_publisher" type="nav_msgs_publisher.py" respawn="false"/>
+
+  <!-- depthcloud encoded image for pointcloud  -->
+  <include file="$(find zethus_publisher)/launch/point_cloud_publisher.launch">
+    <arg name="port" value="$(arg pcl_port)" />
+  </include>
+
+  <!-- Robot Model -->
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find franka_description)/robots/panda_arm_hand.urdf.xacro'" />  
+
+  <!-- tf -->
+  <node pkg="rosbag" type="play" name="zethus_backend_robot_tf_publisher" output="screen" args="-l $(find zethus_publisher)/rosbags/panda_tf.bag tf:=/tf_old" />
+
+  <!-- nav_msgs (odom, pose_array, path) -->
+  <node pkg="rosbag" type="play" name="zethus_backend_odometry_publisher" output="screen" 
+    args="-l $(find zethus_publisher)/rosbags/odom_posearray_path.bag">
+    <remap from="/tricycle_drive_controller/odom" to="/odom_rosbag"/>
+    <remap from="/diff_drive/move_base/TebLocalPlannerROS/local_plan" to="/path_rosbag"/> 
+    <remap from="/diff_drive/move_base/TebLocalPlannerROS/teb_poses" to="/pose_array_rosbag"/>
+  </node>
+
+  <!-- Static transforms for convenience -->
+  <node pkg="tf2_ros" type="static_transform_publisher" name="world_to_polygon_transform_broadcaster" args="0.5 -0.5 0 0 0 0 world polygon_frame" />
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="odom_to_map" args="0 0 0 0 0 0 map odom"/>
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="map_to_world" args="-6 -6 0 0 0 0 world map"/>
+
+</launch>
