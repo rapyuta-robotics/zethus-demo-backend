@@ -16,8 +16,8 @@
 	</node>
 
 	<node pkg="depthcloud_encoder" type="depthcloud_encoder_node" name="depthcloud_encoder_node">
-		<param name="depth" value="/camera/depth/image_raw_throttled"/>
-		<param name="rgb" value="/camera/rgb/image_raw_throttled"/>
+		<param name="depth" value="/camera/depth/image_raw"/>
+		<param name="rgb" value="/camera/rgb/image_raw"/>
 	</node>	
 
 	<node pkg="point_cloud_converter" name="point_cloud_converter" type="point_cloud_converter_node" >	
