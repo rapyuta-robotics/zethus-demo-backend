@@ -44,7 +44,12 @@
     <remap from="/diff_drive/move_base/TebLocalPlannerROS/teb_poses" to="/pose_array_rosbag"/>
   </node>
 
+  <!-- Interactive markers -->
+  <node name="zethus_backend_interactive_marker_publisher" pkg="interactive_marker_tutorials" type="basic_controls" respawn="false" />
+
   <!-- Static transforms for convenience -->
+  <node pkg="tf2_ros" type="static_transform_publisher" name="imarker_transform_to_world_broadcaster" args="0 0 0 0 0 0 world base_link" />
+
   <node pkg="tf2_ros" type="static_transform_publisher" name="world_to_polygon_transform_broadcaster" args="0.5 -0.5 0 0 0 0 world polygon_frame" />
 
   <node pkg="tf2_ros" type="static_transform_publisher" name="odom_to_map" args="0 0 0 0 0 0 map odom"/>
