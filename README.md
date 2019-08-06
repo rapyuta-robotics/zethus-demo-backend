@@ -47,15 +47,25 @@ You must have a working installation of `docker`.
 
 1. Build the docker image
 
-        docker build -t zethus-publisher:kinetic-source .
+        DOCKER_BUILDKIT=1 docker build -t zethus-publisher:kinetic-source .
 
 1. Run the docker image
 
     * Without the gui
 
-            docker run -p 9090:9090 -p 8888:8888 -it --rm zethus-publisher:kinetic-source
+            docker run -p 9090:9090 -p 8888:8888 -it zethus-publisher:kinetic-source
 
     Launch file is launched automatically on running docker image
+    
+    * To use the backend with `rviz`
+    
+            docker run --net=host -it zethus-publisher:kinetic-source 
+
+    In case the backend is run remotely, rviz can be launched with `ROS_MASTER_URI` set
+
+    ```
+    ROS_MASTER_URI=http://<REMOTE_URI>:<REMOTE_PORT> rviz
+    ```
 
 ## Run the publisher
 ```
